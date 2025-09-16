@@ -20,8 +20,8 @@ public class CartController {
 		this.cartService=cartService;
 	}
 	
-	@PostMapping("/checkout")
-	public CartDTO addToCart(@RequestParam String customerName) {
-		return cartService.checkOutCart(customerName);
+	@PostMapping("/checkOutCart")
+	public CartDTO checkOutCart() {
+		return null;
 	}
 }

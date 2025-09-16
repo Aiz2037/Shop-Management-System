@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data		//placing this annotation cause eclipse unable to generate getter/setter
+//@Data		//placing this annotation cause eclipse unable to generate getter/setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {

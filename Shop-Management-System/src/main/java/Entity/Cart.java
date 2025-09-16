@@ -14,19 +14,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+//@Data - not recommended to put in entity, this annotation prohibit use of getter & setter annotation
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Cart {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	
-	private String customerName;
-	private String customerAddress;
-	
-	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL)					//parent
 	private List<CartItem> cartItem = new ArrayList<CartItem>();
 
 	public Long getId() {
@@ -37,14 +34,6 @@ public class Cart {
 		this.id = id;
 	}
 
-//	public double getTotalPrice() {
-//		return totalPrice;
-//	}
-//
-//	public void setTotalPrice(double totalPrice) {
-//		this.totalPrice = totalPrice;
-//	}
-
 	public List<CartItem> getCartItem() {
 		return cartItem;
 	}
@@ -53,20 +42,5 @@ public class Cart {
 		this.cartItem = cartItem;
 	}
 	
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public String getCustomerAddress() {
-		return customerAddress;
-	}
-
-	public void setCustomerAddress(String customerAddress) {
-		this.customerAddress = customerAddress;
-	}
 	
 }

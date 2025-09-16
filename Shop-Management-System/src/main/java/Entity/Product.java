@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data	
+//@Data	
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
@@ -19,6 +19,7 @@ public class Product {
 	private Long id;
 	private String productName;
 	private double productPrice;
+	private Category category;
 		
 	public Long getId() {
 		return id;
@@ -37,6 +38,12 @@ public class Product {
 	}
 	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
+	}
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
 	

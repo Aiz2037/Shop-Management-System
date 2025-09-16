@@ -4,6 +4,8 @@ import DTO.CartDTO;
 
 public interface CartService {
 	
-	CartDTO checkOutCart(String customerName);
+	CartDTO createCart();
+	CartDTO checkOutCart();
+	
 
 }

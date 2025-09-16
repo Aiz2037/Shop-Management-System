@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import DTO.CartDTO;
 import DataMapper.CartMapper;
-import Entity.Customer;
+import Entity.Cart;
 import Repository.CartItemRepository;
 import Repository.CartRepository;
 import Repository.CustomerRepository;
@@ -31,16 +31,16 @@ public class CartServiceImpl implements CartService {
 		this.cartItemService = cartItemService;
 	}
 	
-	@Override		//create parent before assigning it to child
-	public CartDTO checkOutCart(String customerName) {
-		CartDTO newCartDTO=new CartDTO();
-		
-		Customer getIndividualCustomer=customerRepository.findByName(customerName);
-		newCartDTO.setCustomerName(getIndividualCustomer.getName());
-		newCartDTO.setCustomerAddress(getIndividualCustomer.getAddress());
-		cartRepository.save(cartMapper.toEntity(newCartDTO));
-		return newCartDTO;
-		
+	@Override
+	public CartDTO checkOutCart() {
+		return null;
+	}
+
+	@Override
+	public CartDTO createCart() {
+		Cart newCart = new Cart();
+		cartRepository.save(newCart);
+		return null;
 	}
 
 }

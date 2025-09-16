@@ -37,41 +37,24 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 	
 	@Override
-	public CartItemDTO addToCart(Long cartId,String productName, Long quantityToPurchase) {
+	public CartItemDTO addToCart(Long productID, double quantityToPurchase) {
 		
-		Product productToPurchase = productRepository.findByProductName(productName);
-		String selectedProductName = productToPurchase.getProductName();
-		double selectedProductPrice = productToPurchase.getProductPrice();
-
+		Optional<Product> productToPurchase = productRepository.findById(productID);
+	
+		CartItem cartItem = new CartItem();
+		cartItem.setProductName(productToPurchase.get().getProductName());
+		cartItem.setProductPrice(productToPurchase.get().getProductPrice());
+		cartItem.setQuantity(quantityToPurchase);
+		
 		Multiply multiply = new Multiply();
-		double totalPrice = multiply.value(quantityToPurchase,selectedProductPrice);
+		double totalPrice = multiply.value(productToPurchase.get().getProductPrice(), quantityToPurchase);
+		cartItem.setTotalPrice(totalPrice);
 		
-		CartItemDTO cartItemDTO = new CartItemDTO();
-		cartItemDTO.setProductName(selectedProductName);
-		cartItemDTO.setProductPrice(selectedProductPrice);
-		cartItemDTO.setQuantity(quantityToPurchase);
-		cartItemDTO.setTotalPrice(totalPrice);
 		
-		//assigning parent cart to child cart item
-		Optional<Cart> assignCheckOutCart=cartRepository.findById(cartId);
-		cartItemDTO.setCart(assignCheckOutCart.get());
-		
-		cartItemRepository.save(cartItemMapper.toEntity(cartItemDTO));
-		
-		return cartItemDTO;
+		return null;
 	}
 	
-	public double calculateOverallPrice(Long foreignCartId) {
-		List<CartItem> getAllCartItems = cartItemRepository.findAllByForeignCartId(foreignCartId);
-		
-		 double overallPrice = 0; 
-		 Add add = new Add();
-		 for(CartItem getIndividualCartItem:getAllCartItems) { 
-			 double individualCartPrice = getIndividualCartItem.getProductPrice(); 
-			 overallPrice = add.value(overallPrice,individualCartPrice); 
-		}
-		 return overallPrice;
-	}
+	
 
 	@Override
 	@Transactional

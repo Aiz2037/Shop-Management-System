@@ -10,16 +10,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CartItemDTO {	//data transfer object
 	
-	private Long quantity;
+	private double quantity;
 	private String productName;
 	private double productPrice;
 	private double totalPrice;
-	private Cart cart;
 	
-	public Long getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(Long quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	
@@ -40,12 +39,6 @@ public class CartItemDTO {	//data transfer object
 	}
 	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
-	}
-	public Cart getCart() {
-		return cart;
-	}
-	public void Cart(Cart cart) {
-		this.cart = cart;
 	}
 	
 }

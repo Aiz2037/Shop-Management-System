@@ -21,9 +21,9 @@ public class CartItemController {
 		this.cartItemService=cartItemService;
 	}
 	
-	@PostMapping("/addToCart")
-	public CartItemDTO addToCart(@RequestParam Long checkOutCartId, @RequestParam String productName,@RequestParam Long quantityToPurchase) {
-		return cartItemService.addToCart(checkOutCartId, productName, quantityToPurchase);
+	@PostMapping("/addToCart/{productID}/{quantity}")
+	public CartItemDTO addToCart(@RequestParam ("productID") Long productID, @RequestParam("quantity") double quantityToPurchase) {
+		return cartItemService.addToCart(productID, quantityToPurchase);
 	}
 	
 	@DeleteMapping("/deleteCartItem")

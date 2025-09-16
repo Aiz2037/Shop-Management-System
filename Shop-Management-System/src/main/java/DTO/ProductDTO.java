@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ProductDTO {
 	
 	private String productName;
-	private double productPrice;
+	private Long productPrice;
 	
 	
 	public String getProductName() {
@@ -19,7 +19,7 @@ public class ProductDTO {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public void setProductPrice(double productPrice) {
+	public void setProductPrice(Long productPrice) {
 		this.productPrice = productPrice;
 	}
 	public double getProductPrice() {

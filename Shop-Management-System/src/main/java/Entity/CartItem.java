@@ -1,9 +1,5 @@
 package Entity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,13 +18,10 @@ public class CartItem {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	//private Product product; //THIS CAUSE UNABLE TO FIND JDBC CONFIGURATION SUSPECT CONFLICTING
-	//private PurchaseItem purchaseItem;	//CREATE THIS CLASS TO HOLD PRODUCT NAME AND PRICE
-	
+	private Long id;	
 	private String productName;
 	private double productPrice;
-	private Long quantity;
+	private double quantity;
 	private double totalPrice;
 
 	@ManyToOne
@@ -42,10 +35,10 @@ public class CartItem {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(Long quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 	public double getTotalPrice() {
