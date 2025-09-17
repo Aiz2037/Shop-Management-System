@@ -2,14 +2,16 @@ package Service;
 
 import java.util.List;
 
-import DTO.ProductDTO;
 import Entity.Product;
+import Request.AddProductRequest;
 
 
 public interface ProductService {
-	Product insertProductDetail(ProductDTO productDTO);
-	List<ProductDTO> viewAllProducts();
-	ProductDTO updateProductName(String productName, String newproductName);
-	ProductDTO updateProductPrice(String productName, double newproductPrice);
-	void deleteByProductName(String productName);
+	
+	Product getProductById(Long productId);
+	Product addProduct(AddProductRequest request);
+	Product updateProduct(Product product);
+	List<Product> getProductsByBrandAndCategoryName(String productName, String CategoryName);
+	void deleteProductById(Long productId);
+	
 }

@@ -1,15 +1,15 @@
 package Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-//@Data	
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
@@ -17,34 +17,53 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	private String productName;
-	private double productPrice;
+	private String name;
+	private double price;
+	private String brand;
+	
+	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL)
 	private Category category;
-		
+
 	public Long getId() {
 		return id;
 	}
-	public String getProductName() {
-		return productName;
-	}
-	public double getProductPrice() {
-		return productPrice;
-	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public void setProductName(String productName) {
-		this.productName = productName;
+
+	public String getName() {
+		return name;
 	}
-	public void setProductPrice(double productPrice) {
-		this.productPrice = productPrice;
+
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public Category getCategory() {
 		return category;
 	}
+
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+		
 	
 	
 }

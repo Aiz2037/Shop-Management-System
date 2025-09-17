@@ -1,6 +1,7 @@
 package ServiceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import DTO.ProductDTO;
 import DataMapper.ProductMapper;
 import Entity.Product;
+import Exception.AlreadyExistsException;
+import Exception.ProductNotFoundException;
 import Repository.ProductRepository;
+import Request.AddProductRequest;
 import Service.ProductService;
 
 @Service
@@ -24,39 +28,65 @@ public class ProductServiceImpl implements ProductService {
 		this.productRepository = productRepository;
 	}
 	
+	
 	@Override
-	public Product insertProductDetail(ProductDTO productDTO) {
-		Product newProduct = productMapper.toEntity(productDTO);
-		return productRepository.save(newProduct);
+	public Product getProductById(Long productId) {
+		return productRepository.findById(productId)
+				.orElseThrow(()-> new ProductNotFoundException("Product not found !!"));
 	}
 	
 	@Override
-	public List<ProductDTO> viewAllProducts() {
-		List<Product> allProducts = productRepository.findAll();
-		List<ProductDTO> allProductsDTO = productMapper.toListDTO(allProducts);
-		return allProductsDTO;
+	public Product addProduct(AddProductRequest request) {
+		
+		Optional.ofNullable(productRepository.findByName(request.getName()))
+		.orElseGet(()->{	
+		return productRepository.save(mapToProduct(request));
+		});
 	}
 	
-	@Override
-	public ProductDTO updateProductName(String productName, String newproductName) {
-		Product productToUpdate = productRepository.findByProductName(productName);
-		productToUpdate.setProductName(newproductName);
-		Product updatedProduct = productRepository.save(productToUpdate);
-		return productMapper.toDTO(updatedProduct);
+	private Product mapToProduct(AddProductRequest request) {
+		Product newProduct = new Product();
+		newProduct.setName(request.getName());
+		newProduct.setPrice(request.getPrice());
+		newProduct.setCategory(request.getCategory());
+		newProduct.setBrand(request.getBrand());
+		return newProduct;
 	}
 
-	@Override
-	public ProductDTO updateProductPrice(String productName, double newproductPrice) {
-		Product priceToUpdate = productRepository.findByProductName(productName);
-		priceToUpdate.setProductPrice(newproductPrice);
-		Product updatedPrice = productRepository.save(priceToUpdate);
-		return productMapper.toDTO(updatedPrice);
-	}
+
 
 	@Override
-	@Transactional
-	public void deleteByProductName(String productName) {
-		productRepository.deleteByProductName(productName);
+	public Product updateProduct(Product product) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
+
+	@Override
+	public Product getProductByCategoryName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<Product> getProductsByBrandAndCategoryName(String productName, String CategoryName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public void deleteProductById(Long productId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
 
 }
