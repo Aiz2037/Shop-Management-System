@@ -1,5 +1,7 @@
 package Entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +20,7 @@ public class Product {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)		//USE IDENTITY
 	private Long id;
 	private String name;
-	private double price;
+	private BigDecimal price;
 	private String brand;
 	private int inventory;
 	
@@ -40,14 +42,6 @@ public class Product {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
 	}
 
 	public Category getCategory() {
@@ -72,6 +66,14 @@ public class Product {
 
 	public void setInventory(int inventory) {
 		this.inventory = inventory;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 		
 }

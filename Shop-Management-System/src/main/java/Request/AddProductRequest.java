@@ -1,5 +1,7 @@
 package Request;
 
+import java.math.BigDecimal;
+
 import Entity.Category;
 import lombok.Data;
 
@@ -7,7 +9,7 @@ import lombok.Data;
 
 public class AddProductRequest {
 	private String name;
-	private double price;
+	private BigDecimal price;
 	private Category category;
 	private String brand;
 }
