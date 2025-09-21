@@ -5,50 +5,53 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import DTO.ProductDTO;
-import DataMapper.ProductMapper;
+import Entity.Category;
 import Entity.Product;
-import Exception.AlreadyExistsException;
-import Exception.ProductNotFoundException;
+import Exception.ResourcesNotFoundException;
+import Repository.CategoryRepository;
 import Repository.ProductRepository;
 import Request.AddProductRequest;
+import Request.ProductUpdateRequest;
 import Service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-	private final ProductMapper productMapper;
 	private final ProductRepository productRepository;
+	private final CategoryRepository categoryRepository;
 	
 	@Autowired
-	public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
-		this.productMapper = productMapper;
+	public ProductServiceImpl(ProductRepository productRepository,CategoryRepository categoryRepository) {
 		this.productRepository = productRepository;
+		this.categoryRepository = categoryRepository;
 	}
 	
 	
 	@Override
 	public Product getProductById(Long productId) {
 		return productRepository.findById(productId)
-				.orElseThrow(()-> new ProductNotFoundException("Product not found !!"));
+				.orElseThrow(()-> new ResourcesNotFoundException("Product not found !!"));
 	}
 	
 	@Override
 	public Product addProduct(AddProductRequest request) {
-		
-		Optional.ofNullable(productRepository.findByName(request.getName()))
-		.orElseGet(()->{	
-		return productRepository.save(mapToProduct(request));
+		Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+		.orElseGet(()->{
+			Category newCategory = new Category();
+			newCategory.setName(request.getCategory().getName());
+			return newCategory;
 		});
+		
+		request.setCategory(category);
+		return productRepository.save(mapToProduct(request));
 	}
 	
 	private Product mapToProduct(AddProductRequest request) {
 		Product newProduct = new Product();
 		newProduct.setName(request.getName());
 		newProduct.setPrice(request.getPrice());
-		newProduct.setCategory(request.getCategory());
+		//newProduct.setCategory(request.getCategory());
 		newProduct.setBrand(request.getBrand());
 		return newProduct;
 	}
@@ -56,37 +59,36 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public Product updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public Product getProductByCategoryName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public List<Product> getProductsByBrandAndCategoryName(String productName, String CategoryName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public void deleteProductById(Long productId) {
-		// TODO Auto-generated method stub
+	public Product updateProduct(ProductUpdateRequest productUpdateRequest,Long productID) {
+		
+		return Optional.ofNullable(getProductById(productID))
+		.map(existingProduct->updateExistingProduct(existingProduct,productUpdateRequest))
+		.map(productRepository::save)
+		.orElseThrow(()->new ResourcesNotFoundException("Product not found"));
+		
 		
 	}
 
+	private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest productUpdateRequest) {
+		existingProduct.setName(productUpdateRequest.getName());
+		existingProduct.setPrice(productUpdateRequest.getPrice());
+		existingProduct.setBrand(productUpdateRequest.getBrand());
+		existingProduct.setInventory(productUpdateRequest.getInventory());
+		
+		Category category = categoryRepository.findByName(productUpdateRequest.getCategory().getName());
+		existingProduct.setCategory(category);
+		return existingProduct;
+	}
 
+	@Override
+	public List<Product> getProductsByBrandAndCategoryName(String brandName, String categoryName) {
+		return Optional.ofNullable(productRepository.findByBrandAndCategoryName(brandName, categoryName))
+				.orElseThrow(()-> new ResourcesNotFoundException("Product not found"));
+	}
 
-
-
+	@Override
+	public void deleteProductById(Long productId) {
+		productRepository.findById(productId)
+		.ifPresentOrElse(productRepository::delete, ()-> new ResourcesNotFoundException("Product not found"));
+	}
 }

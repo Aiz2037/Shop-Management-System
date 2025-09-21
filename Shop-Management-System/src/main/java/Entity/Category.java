@@ -1,11 +1,13 @@
 package Entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -15,14 +17,12 @@ import lombok.NoArgsConstructor;
 public class Category {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY) //USE IDENTITY SO ID IS UNIQUE FOLLOW TABLE
 	private Long id;
 	private String name;
 
-	@ManyToOne
-	@JoinColumn(name="foreignProductId")
-	private Product product;
-	
+	@OneToMany(mappedBy="category",cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<Product> product;		//use list sebab many products map to single category
 	
 	public Long getId() {
 		return id;
@@ -35,7 +35,5 @@ public class Category {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	
+	}	
 }

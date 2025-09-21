@@ -1,11 +1,11 @@
 package Entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -15,13 +15,15 @@ import lombok.NoArgsConstructor;
 public class Product {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)		//USE IDENTITY
 	private Long id;
 	private String name;
 	private double price;
 	private String brand;
+	private int inventory;
 	
-	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL)
+	@ManyToOne
+	@JoinColumn(name="foreignCategoryID")
 	private Category category;
 
 	public Long getId() {
@@ -63,7 +65,13 @@ public class Product {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
+
+	public int getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(int inventory) {
+		this.inventory = inventory;
+	}
 		
-	
-	
 }

@@ -1,7 +1,7 @@
 package Entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -20,11 +19,11 @@ import lombok.NoArgsConstructor;
 public class Cart {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL)					//parent
-	private List<CartItem> cartItem = new ArrayList<CartItem>();
+	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL, orphanRemoval=true)					//parent
+	private Set<CartItem> cartItem = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -34,13 +33,12 @@ public class Cart {
 		this.id = id;
 	}
 
-	public List<CartItem> getCartItem() {
+	public Set<CartItem> getCartItem() {
 		return cartItem;
 	}
 
-	public void setCartItem(List<CartItem> cartItem) {
+	public void setCartItem(Set<CartItem> cartItem) {
 		this.cartItem = cartItem;
 	}
-	
-	
+		
 }

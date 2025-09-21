@@ -1,12 +1,9 @@
 package Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import DTO.CartDTO;
 import Service.CartService;
 
 @RestController
@@ -20,8 +17,5 @@ public class CartController {
 		this.cartService=cartService;
 	}
 	
-	@PostMapping("/checkOutCart")
-	public CartDTO checkOutCart() {
-		return null;
-	}
+
 }

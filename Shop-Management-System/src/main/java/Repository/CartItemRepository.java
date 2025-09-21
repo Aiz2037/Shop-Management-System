@@ -10,6 +10,5 @@ import Entity.CartItem;
 public interface CartItemRepository extends JpaRepository<CartItem, Long>{
 
 	void deleteByProductName(String productName);
-	List<CartItem> findAllByForeignCartId(Long checkOutCartId);
 
 }
