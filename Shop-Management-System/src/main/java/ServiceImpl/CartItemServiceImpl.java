@@ -30,7 +30,7 @@ public class CartItemServiceImpl implements CartItemService {
 		//check cart already has the product
 		//if no, create new cartItem and assign to cart
 		//get total price for all items in the cart
-		Cart cart = cartService.getCartByID(cartID);
+		cartService.initializeNewCart(cartID);
 	
 		//check cartitem in the cart has the product
 		CartItem cartItem = cart.getCartItems().stream()

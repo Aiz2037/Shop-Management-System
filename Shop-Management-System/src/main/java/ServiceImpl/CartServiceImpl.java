@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class CartServiceImpl implements CartService {
 
 	private final CartRepository cartRepository;
+	private final CartService cartService;
 	
 	public Cart getCartByID(Long cartID) {
 		Cart cart = cartRepository.findById(cartID)
@@ -26,9 +27,15 @@ public class CartServiceImpl implements CartService {
 		Optional.of(getCartByID(cartID)).ifPresent(cartRepository::delete);
 	}
 	
-	public Cart initializeNewCart() {
-		Cart cart = new Cart();
-		return cartRepository.save(cart);
+	public Cart initializeCart(Long cartID) {
+		try{
+			Cart cart = cartService.getCartByID(cartID);
+			if(cart.getId()== null) {
+				
+			}
+		}catch(ResourcesNotFoundException e) {
+			}
 	}
+	
 
 }

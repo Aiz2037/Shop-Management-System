@@ -30,9 +30,7 @@ public class CartController {
 	public ResponseEntity<APIResponse> getCartByID(@RequestParam Long cartID){
 		try {
 			Cart cart = cartService.getCartByID(cartID);		//even here already thrown exception
-			if(cart.getId()==null) {							//will still continue execute
-				cartID=cartService.initializeNewCart().getId();
-			}
+			//IT STILL EXECUTES NEXT BECAUSE OF TRY CATCH
 			return ResponseEntity.ok(new APIResponse("Successfully get cart.",cart));
 		}catch(ResourcesNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse("Unable to get cart",null));
