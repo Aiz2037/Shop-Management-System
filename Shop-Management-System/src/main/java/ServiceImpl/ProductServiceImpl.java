@@ -40,19 +40,18 @@ public class ProductServiceImpl implements ProductService {
 		.orElseGet(()->{
 			Category newCategory = new Category();
 			newCategory.setName(request.getCategory().getName());
-			return newCategory;
+			return categoryRepository.save(newCategory);
 		});
 		
-		request.setCategory(category);
-		return productRepository.save(mapToProduct(request));
+		return productRepository.save(mapToProduct(request,category));
 	}
 	
-	private Product mapToProduct(AddProductRequest request) {
+	private Product mapToProduct(AddProductRequest request, Category category) {
 		Product newProduct = new Product();
 		newProduct.setName(request.getName());
 		newProduct.setPrice(request.getPrice());
-		//newProduct.setCategory(request.getCategory());
 		newProduct.setBrand(request.getBrand());
+		newProduct.setCategory(category);
 		return newProduct;
 	}
 

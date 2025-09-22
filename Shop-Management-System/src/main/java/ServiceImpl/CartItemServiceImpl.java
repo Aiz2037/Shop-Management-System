@@ -20,19 +20,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CartItemServiceImpl implements CartItemService {
 
-	
 	private final CartItemRepository cartItemRepository;
 	private final ProductService productService;
 	private final CartService cartService;
 	private final CartRepository cartRepository;
+	
 	
 	public CartItem addItemToCart(Long productID, Integer quantity, Long cartID) {
 		//check cart already has the product
 		//if no, create new cartItem and assign to cart
 		//get total price for all items in the cart
 		Cart cart = cartService.getCartByID(cartID);
+	
 		//check cartitem in the cart has the product
-		CartItem cartItem = cart.getCartItems().stream().filter(item->item.getProduct().getId().equals(productID)).findFirst().orElse(new CartItem());
+		CartItem cartItem = cart.getCartItems().stream()
+				.filter(item->item.getProduct().getId().equals(productID)).findFirst().orElse(new CartItem());
 		Product product = productService.getProductById(productID);
 		
 		if(cartItem.getId() == null) {
@@ -46,6 +48,7 @@ public class CartItemServiceImpl implements CartItemService {
 		
 		cartItem.setTotalPrice();
 		cart.addItem(cartItem);
+		cart.setTotalAmount();
 		
 		cartRepository.save(cart);
 		return cartItemRepository.save(cartItem);
@@ -53,8 +56,12 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	//removeitemfrom cart
 	//getNewTotalAmount
-	
-	public CartItem removeItemFromCart(CartItem cartItem) {
+	public void removeItemFromCart(Long productID, Long cartID) {
+		Cart cart=cartService.getCartByID(cartID);
+		cart.getCartItems().stream().filter(item->item.getProduct().getId().equals(productID)).findFirst().ifPresent(cart::removeItem);
+		cart.setTotalAmount();
+		cartRepository.save(cart);
 	}
-	//updatequantityitem
+	
+	
 }

@@ -33,7 +33,7 @@ public class ProductController {
 	@PostMapping("/addProduct/")
 	public ResponseEntity<APIResponse> addNewProduct(@RequestBody AddProductRequest addProductRequest){
 		Product newProduct=productService.addProduct(addProductRequest);
-		return ResponseEntity.ok(new APIResponse("Product added successfully",newProduct));
+		return ResponseEntity.ok(new APIResponse("Product added successfully", newProduct));
 	}
 	
 	@GetMapping("/viewSingleProduct/")
