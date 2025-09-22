@@ -80,7 +80,9 @@ public class CartItem {
 		this.product = product;
 	}
 	
-
-
+	public void setTotalPrice() {
+		this.totalPrice=this.productPrice.multiply(new BigDecimal(quantity));	
+	
+	}
 
 }

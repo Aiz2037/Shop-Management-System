@@ -1,7 +1,9 @@
 package Entity;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -23,7 +25,9 @@ public class Cart {
 	private Long id;
 
 	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL, orphanRemoval=true)					//parent
-	private Set<CartItem> cartItem = new HashSet<>();
+	private Set<CartItem> cartItems = new HashSet<>();
+	
+	private BigDecimal totalAmount;
 
 	public Long getId() {
 		return id;
@@ -32,13 +36,41 @@ public class Cart {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public Set<CartItem> getCartItem() {
-		return cartItem;
+	
+	public Set<CartItem> getCartItems() {
+		return cartItems;
 	}
 
-	public void setCartItem(Set<CartItem> cartItem) {
-		this.cartItem = cartItem;
+	public void setCartItems(Set<CartItem> cartItems) {
+		this.cartItems = cartItems;
 	}
-		
+
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	///
+	///
+	///
+	///
+	///
+	
+	public void addItem(CartItem cartItem) {
+		this.cartItems.add(cartItem);
+		cartItem.setCart(this);
+	}
+	
+	public void removeItem(CartItem cartItem) {
+		this.cartItems.remove(cartItem);
+		cartItem.setCart(null);
+	}
+	
+	public void setTotalAmount() {
+		Set<BigDecimal> getItemTotalPrice=this.cartItems.stream().map(item->item.getTotalPrice()).collect(Collectors.toSet());
+		this.totalAmount=getItemTotalPrice.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+	
+	}
 }
