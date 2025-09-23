@@ -51,7 +51,12 @@ public class CategoryServiceImplementation implements CategoryService{
 	@Override
 	public void deleteCategoryById(Long productID) {
 		Optional.ofNullable(getCategoryById(productID)).
-		ifPresentOrElse(categoryRepository::delete, ()-> new ResourcesNotFoundException("Category not found"));
+		ifPresentOrElse(categoryRepository::delete, ()-> new ResourcesNotFoundException("Category not found"));	
+	}
+	
+	@Override
+	public void deleteAllCategories() {
+		categoryRepository.deleteAll();
 		
 	}
 

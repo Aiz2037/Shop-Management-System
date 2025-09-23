@@ -1,6 +1,5 @@
 package Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,19 +12,16 @@ import Entity.Cart;
 import Exception.ResourcesNotFoundException;
 import Response.APIResponse;
 import Service.CartService;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
 @RequestMapping("/api/cart")
+@RequiredArgsConstructor
 public class CartController {
 
 	private final CartService cartService;
-	
-	@Autowired
-	public CartController(CartService cartService) {
-		this.cartService=cartService;
-	}
-	
+		
 	@GetMapping("/getCart")
 	public ResponseEntity<APIResponse> getCartByID(@RequestParam Long cartID){
 		try {
@@ -44,6 +40,16 @@ public class CartController {
 			return ResponseEntity.ok(new APIResponse("Successfully deleted the cart.",null));
 		}catch(ResourcesNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse("Unable to delete cart",null));
+		}
+	}
+	
+	@DeleteMapping("/deleteAllCart")
+	public ResponseEntity<APIResponse> deleteAllCarts(){
+		try {
+			cartService.deleteAllCarts();
+			return ResponseEntity.ok(new APIResponse("Successfully deleted all the carts.",null));
+		}catch(ResourcesNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse("Unable to delete all the carts",null));
 		}
 	}
 }

@@ -6,5 +6,7 @@ public interface CartService {
 
 	Cart getCartByID(Long cartID);
 	void deleteCartById(Long cartID);
-	Cart initializeNewCart();
+
+	Long initializeCart();
+	void deleteAllCarts();
 }

@@ -8,5 +8,6 @@ public interface CategoryService {
 	Category addCategory(String categoryName);
 	Category updateCategory(String updateCategoryName, Long categoryID);
 	void deleteCategoryById(Long productID);
+	void deleteAllCategories();
 	
 }

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class Cart {
 	private Long id;
 
 	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL, orphanRemoval=true)					//parent
+	
 	private Set<CartItem> cartItems = new HashSet<>();
 	
 	private BigDecimal totalAmount;
@@ -60,7 +63,7 @@ public class Cart {
 	
 	public void addItem(CartItem cartItem) {
 		this.cartItems.add(cartItem);
-		cartItem.setCart(this);
+	cartItem.setCart(this);
 	}
 	
 	public void removeItem(CartItem cartItem) {

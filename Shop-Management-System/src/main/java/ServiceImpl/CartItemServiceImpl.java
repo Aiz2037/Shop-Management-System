@@ -26,12 +26,12 @@ public class CartItemServiceImpl implements CartItemService {
 	private final CartRepository cartRepository;
 	
 	
+	
 	public CartItem addItemToCart(Long productID, Integer quantity, Long cartID) {
 		//check cart already has the product
 		//if no, create new cartItem and assign to cart
 		//get total price for all items in the cart
-		cartService.initializeNewCart(cartID);
-	
+		Cart cart = cartService.getCartByID(cartID);
 		//check cartitem in the cart has the product
 		CartItem cartItem = cart.getCartItems().stream()
 				.filter(item->item.getProduct().getId().equals(productID)).findFirst().orElse(new CartItem());
@@ -49,7 +49,6 @@ public class CartItemServiceImpl implements CartItemService {
 		cartItem.setTotalPrice();
 		cart.addItem(cartItem);
 		cart.setTotalAmount();
-		
 		cartRepository.save(cart);
 		return cartItemRepository.save(cartItem);
 	}

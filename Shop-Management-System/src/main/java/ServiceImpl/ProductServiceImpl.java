@@ -90,4 +90,11 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.findById(productId)
 		.ifPresentOrElse(productRepository::delete, ()-> new ResourcesNotFoundException("Product not found"));
 	}
+
+
+	@Override
+	public void deleteAllProducts() {
+		productRepository.deleteAll();
+		
+	}
 }

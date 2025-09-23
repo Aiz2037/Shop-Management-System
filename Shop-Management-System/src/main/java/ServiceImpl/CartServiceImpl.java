@@ -1,6 +1,8 @@
 package ServiceImpl;
 
+import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class CartServiceImpl implements CartService {
 
 	private final CartRepository cartRepository;
-	private final CartService cartService;
+	//private final CartService cartService; //cause circular dependency
+	private final AtomicLong cartIDgenerator = new AtomicLong(0);
 	
 	public Cart getCartByID(Long cartID) {
 		Cart cart = cartRepository.findById(cartID)
@@ -27,15 +30,14 @@ public class CartServiceImpl implements CartService {
 		Optional.of(getCartByID(cartID)).ifPresent(cartRepository::delete);
 	}
 	
-	public Cart initializeCart(Long cartID) {
-		try{
-			Cart cart = cartService.getCartByID(cartID);
-			if(cart.getId()== null) {
-				
-			}
-		}catch(ResourcesNotFoundException e) {
-			}
+	public void deleteAllCarts() {
+		cartRepository.deleteAll();
 	}
 	
-
+	public Long initializeCart() {
+		Cart newCart = new Cart();
+//		Long cartID=cartIDgenerator.incrementAndGet();	Row was updated or deleted by another transaction
+//		newCart.setId(cartID);
+		return cartRepository.save(newCart).getId();
+	}
 }

@@ -56,7 +56,7 @@ public class ProductController {
 		}
 	}
 	
-	@DeleteMapping("/delete/")
+	@DeleteMapping("/deleteProductById/")
 	public ResponseEntity<APIResponse> deleteProduct(@RequestParam Long productID){
 		try {
 			Product toDeleteProduct = productService.getProductById(productID);
@@ -68,5 +68,15 @@ public class ProductController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new APIResponse("Bad request",null));
+	}
+	
+	@DeleteMapping("/deleteAllProducts/")
+	public ResponseEntity<APIResponse> deleteAllProducts(){
+		try{
+			productService.deleteAllProducts();
+			return ResponseEntity.ok(new APIResponse("All products have been deleted", null));
+		}catch(ResourcesNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
+		}
 	}
 }
