@@ -41,9 +41,19 @@ public class CartItemController {
 	}
 	
 	@DeleteMapping("/deleteCartItem")
-	public ResponseEntity<APIResponse> removeItemFromCart(Long productID, Long cartID){
+	public ResponseEntity<APIResponse> removeAnItemFromCart(@RequestParam Long productID, @RequestParam(required=false) Long cartID){
 		try {
-		cartItemService.removeItemFromCart(productID, cartID);
+		cartItemService.removeAnItemFromCart(productID, cartID);
+		return ResponseEntity.ok(new APIResponse("Succesfully deleted",null));}
+		catch(ResourcesNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
+		}
+	}
+	
+	@DeleteMapping("/deleteAllCartItem")
+	public ResponseEntity<APIResponse> deleteAllCartItems(){
+		try {
+		cartItemService.deleteAllCartItems();
 		return ResponseEntity.ok(new APIResponse("Succesfully deleted",null));}
 		catch(ResourcesNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));

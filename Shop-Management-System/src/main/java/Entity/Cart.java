@@ -27,7 +27,6 @@ public class Cart {
 	private Long id;
 
 	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL, orphanRemoval=true)					//parent
-	
 	private Set<CartItem> cartItems = new HashSet<>();
 	
 	private BigDecimal totalAmount;

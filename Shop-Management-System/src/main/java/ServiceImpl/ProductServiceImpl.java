@@ -74,7 +74,12 @@ public class ProductServiceImpl implements ProductService {
 		existingProduct.setBrand(productUpdateRequest.getBrand());
 		existingProduct.setInventory(productUpdateRequest.getInventory());
 		
-		Category category = categoryRepository.findByName(productUpdateRequest.getCategory().getName());
+		Category category = Optional.ofNullable(categoryRepository.findByName(productUpdateRequest.getCategory().getName()))
+				.orElseGet(()-> {
+				Category newCategory = new Category();
+				newCategory.setName(productUpdateRequest.getCategory().getName());
+				return categoryRepository.save(newCategory);
+				});
 		existingProduct.setCategory(category);
 		return existingProduct;
 	}

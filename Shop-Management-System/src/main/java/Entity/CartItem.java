@@ -21,7 +21,9 @@ public class CartItem {
 	private Long id;
 	
 	@ManyToOne		//many cart items can hold single product 
-	@JoinColumn(name="foreignProductId")	//single directional mapping only
+	@JoinColumn(name="foreignProductId")	//product is parent for cart item class
+	//single directional mapping only
+	//cart item is the child class for product
 	private Product product;
 	
 	private Integer quantity;

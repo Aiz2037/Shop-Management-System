@@ -1,9 +1,5 @@
 package ServiceImpl;
 
-import java.math.BigDecimal;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Entity.Cart;
@@ -49,18 +45,22 @@ public class CartItemServiceImpl implements CartItemService {
 		cartItem.setTotalPrice();
 		cart.addItem(cartItem);
 		cart.setTotalAmount();
-		cartRepository.save(cart);
+		//cartRepository.save(cart);
 		return cartItemRepository.save(cartItem);
+		
 	}
 	
 	//removeitemfrom cart
 	//getNewTotalAmount
-	public void removeItemFromCart(Long productID, Long cartID) {
+	public void removeAnItemFromCart(Long productID, Long cartID) {
 		Cart cart=cartService.getCartByID(cartID);
 		cart.getCartItems().stream().filter(item->item.getProduct().getId().equals(productID)).findFirst().ifPresent(cart::removeItem);
 		cart.setTotalAmount();
 		cartRepository.save(cart);
 	}
 	
+	public void deleteAllCartItems() {
+		cartItemRepository.deleteAll();
+	}
 	
 }

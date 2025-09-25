@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Product {//child class
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)		//USE IDENTITY
@@ -26,7 +26,7 @@ public class Product {
 	
 	@ManyToOne
 	@JoinColumn(name="foreignCategoryID")
-	private Category category;
+	private Category category; //parent class
 
 	public Long getId() {
 		return id;

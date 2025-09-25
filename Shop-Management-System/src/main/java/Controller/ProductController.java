@@ -47,7 +47,7 @@ public class ProductController {
 	}
 	
 	@PutMapping("/updateMapping/")
-	public ResponseEntity<APIResponse> updateProduct(@RequestParam ProductUpdateRequest productUpdateRequest, @RequestParam Long productID){
+	public ResponseEntity<APIResponse> updateProduct(@RequestBody ProductUpdateRequest productUpdateRequest, @RequestParam Long productID){
 		try{
 			Product updatedProduct = productService.updateProduct(productUpdateRequest, productID);
 			return ResponseEntity.ok(new APIResponse("Product is available", updatedProduct));
@@ -79,4 +79,6 @@ public class ProductController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
 		}
 	}
+	
+	
 }
