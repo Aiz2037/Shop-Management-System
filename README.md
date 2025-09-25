@@ -8,6 +8,7 @@ And we use postman to interact with the database by sending the API.
 <img width="1851" height="801" alt="image" src="https://github.com/user-attachments/assets/bc797229-0b29-4a77-8108-040746ec0284" />
 Here in application.properties we defined our program to be able to synchronize with MySQL database.
 <img width="890" height="328" alt="image" src="https://github.com/user-attachments/assets/cdf633c9-9d96-4054-9729-5ab4b36a2cf9" />
+
 Below snapshot shows the date was inserted into the database.
 <img width="932" height="188" alt="image" src="https://github.com/user-attachments/assets/22814828-7c57-4bb2-a560-2824dbd0c4c9" />
 
