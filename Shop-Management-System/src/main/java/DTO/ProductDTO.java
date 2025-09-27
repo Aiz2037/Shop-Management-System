@@ -1,28 +1,23 @@
 package DTO;
 
+import java.math.BigDecimal;
+
+import Entity.Cart;
+import Entity.Category;
+import Entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class ProductDTO {
-	
-	private String productName;
-	private Long productPrice;
-	
-	
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-	public void setProductPrice(Long productPrice) {
-		this.productPrice = productPrice;
-	}
-	public double getProductPrice() {
-		return productPrice;
-	}
+	private Long id;
+	private String name;
+	private BigDecimal price;
+	private String brand;
+	private int inventory;
+	private Category category;
 }

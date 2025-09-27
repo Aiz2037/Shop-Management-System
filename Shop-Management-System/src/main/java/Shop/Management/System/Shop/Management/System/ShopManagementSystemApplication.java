@@ -1,16 +1,19 @@
 package Shop.Management.System.Shop.Management.System;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+
 @SpringBootApplication
 @EntityScan(basePackages ={"Entity"}) 
 @ComponentScan(basePackages= {"Controller","Service", "ServiceImpl", "DTO", "DataMapper","Request", "Response","Exception"})
 @EnableJpaRepositories(basePackages = {"Repository"})
+
 public class ShopManagementSystemApplication {
 
 	public static void main(String[] args) {

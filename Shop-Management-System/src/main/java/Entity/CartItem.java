@@ -2,6 +2,8 @@ package Entity;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +34,7 @@ public class CartItem {
 
 	@ManyToOne
 	@JoinColumn(name="foreignCartId")
+	@JsonIgnore  //put here so no need call cart at child class
 	private Cart cart;
 
 	public Long getId() {

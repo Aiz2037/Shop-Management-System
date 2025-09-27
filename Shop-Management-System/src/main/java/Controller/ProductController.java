@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import DTO.ProductDTO;
 import Entity.Product;
 import Exception.ResourcesNotFoundException;
 import Request.AddProductRequest;
@@ -39,7 +40,7 @@ public class ProductController {
 	@GetMapping("/viewSingleProduct/")
 	public ResponseEntity<APIResponse> viewSingleProduct(@RequestParam Long productID){
 		try{
-			Product getProduct = productService.getProductById(productID);
+			ProductDTO getProduct = productService.getProductById(productID);
 			return ResponseEntity.ok(new APIResponse("Product is available", getProduct));
 		}catch(ResourcesNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
@@ -49,7 +50,7 @@ public class ProductController {
 	@PutMapping("/updateMapping/")
 	public ResponseEntity<APIResponse> updateProduct(@RequestBody ProductUpdateRequest productUpdateRequest, @RequestParam Long productID){
 		try{
-			Product updatedProduct = productService.updateProduct(productUpdateRequest, productID);
+			ProductDTO updatedProduct = productService.updateProduct(productUpdateRequest, productID);
 			return ResponseEntity.ok(new APIResponse("Product is available", updatedProduct));
 		}catch(ResourcesNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
@@ -59,7 +60,7 @@ public class ProductController {
 	@DeleteMapping("/deleteProductById/")
 	public ResponseEntity<APIResponse> deleteProduct(@RequestParam Long productID){
 		try {
-			Product toDeleteProduct = productService.getProductById(productID);
+			ProductDTO toDeleteProduct = productService.getProductById(productID);
 			if (toDeleteProduct != null) {
 				productService.deleteProductById(productID);
 				return ResponseEntity.ok(new APIResponse("Product successfully deleted",null));

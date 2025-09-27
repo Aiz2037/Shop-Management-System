@@ -2,6 +2,11 @@ package ServiceImpl;
 
 import org.springframework.stereotype.Service;
 
+import DTO.CartItemDTO;
+import DTO.ProductDTO;
+import DataMapper.CartItemMapper;
+import DataMapper.CartMapper;
+import DataMapper.ProductMapper;
 import Entity.Cart;
 import Entity.CartItem;
 import Entity.Product;
@@ -10,6 +15,8 @@ import Repository.CartRepository;
 import Service.CartItemService;
 import Service.CartService;
 import Service.ProductService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,8 +27,9 @@ public class CartItemServiceImpl implements CartItemService {
 	private final ProductService productService;
 	private final CartService cartService;
 	private final CartRepository cartRepository;
-	
-	
+	private final CartItemMapper cartItemMapper;
+	private final CartMapper cartMapper;
+	private final ProductMapper productMapper;
 	
 	public CartItem addItemToCart(Long productID, Integer quantity, Long cartID) {
 		//check cart already has the product
@@ -29,9 +37,10 @@ public class CartItemServiceImpl implements CartItemService {
 		//get total price for all items in the cart
 		Cart cart = cartService.getCartByID(cartID);
 		//check cartitem in the cart has the product
-		CartItem cartItem = cart.getCartItems().stream()
+		CartItem cartItem = cart.getCartItem().stream()
 				.filter(item->item.getProduct().getId().equals(productID)).findFirst().orElse(new CartItem());
-		Product product = productService.getProductById(productID);
+		ProductDTO productDTO = productService.getProductById(productID);
+		Product product = productMapper.toEntity(productDTO);
 		
 		if(cartItem.getId() == null) {
 			cartItem.setProduct(product);
@@ -42,11 +51,13 @@ public class CartItemServiceImpl implements CartItemService {
 			cartItem.setQuantity(cartItem.getQuantity()+quantity);
 		}
 		
+		//CartItem cartItem=cartItemMapper.toEntity(cartItemDTO);
 		cartItem.setTotalPrice();
 		cart.addItem(cartItem);
 		cart.setTotalAmount();
 		//cartRepository.save(cart);
 		return cartItemRepository.save(cartItem);
+	
 		
 	}
 	
@@ -54,7 +65,7 @@ public class CartItemServiceImpl implements CartItemService {
 	//getNewTotalAmount
 	public void removeAnItemFromCart(Long productID, Long cartID) {
 		Cart cart=cartService.getCartByID(cartID);
-		cart.getCartItems().stream().filter(item->item.getProduct().getId().equals(productID)).findFirst().ifPresent(cart::removeItem);
+		cart.getCartItem().stream().filter(item->item.getProduct().getId().equals(productID)).findFirst().ifPresent(cart::removeItem);
 		cart.setTotalAmount();
 		cartRepository.save(cart);
 	}

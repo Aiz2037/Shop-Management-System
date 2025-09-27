@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
+import DTO.CartDTO;
+import DataMapper.CartMapper;
 import Entity.Cart;
 import Exception.ResourcesNotFoundException;
 import Repository.CartRepository;
@@ -18,12 +20,13 @@ public class CartServiceImpl implements CartService {
 
 	private final CartRepository cartRepository;
 	//private final CartService cartService; //cause circular dependency
-	private final AtomicLong cartIDgenerator = new AtomicLong(0);
+	//private final AtomicLong cartIDgenerator = new AtomicLong(0);
+	private final CartMapper cartMapper;
 	
 	public Cart getCartByID(Long cartID) {
-		Cart cart = cartRepository.findById(cartID)
+		return cartRepository.findById(cartID)
 				.orElseThrow(()->new ResourcesNotFoundException("Cart not found")); //cannot find return null
-		return cart;
+		//return cartMapper.toDTO(cart);
 	}
 	
 	public void deleteCartById(Long cartID) {

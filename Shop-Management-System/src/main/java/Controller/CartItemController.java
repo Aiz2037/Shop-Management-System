@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import DTO.CartItemDTO;
 import Entity.CartItem;
 import Exception.ResourcesNotFoundException;
 import Response.APIResponse;
@@ -29,7 +30,7 @@ public class CartItemController {
 													@RequestParam Integer quantity){
 		try {
 			if(cartID==null) {
-			cartID=cartService.initializeCart();	
+			cartID=cartService.initializeCart();	//if cartID is null, auto assign cartID
 			}
 			
 			CartItem newItem = cartItemService.addItemToCart(productID, quantity, cartID);

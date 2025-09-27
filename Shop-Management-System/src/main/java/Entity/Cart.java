@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import DTO.CartItemDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +28,8 @@ public class Cart {
 	private Long id;
 
 	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL, orphanRemoval=true)					//parent
-	private Set<CartItem> cartItems = new HashSet<>();
+	//@JsonIgnore //if ignore here entity will not return cartitem
+	private Set<CartItem> cartItem = new HashSet<>();
 	
 	private BigDecimal totalAmount;
 
@@ -39,13 +41,7 @@ public class Cart {
 		this.id = id;
 	}
 	
-	public Set<CartItem> getCartItems() {
-		return cartItems;
-	}
 
-	public void setCartItems(Set<CartItem> cartItems) {
-		this.cartItems = cartItems;
-	}
 
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
@@ -54,25 +50,28 @@ public class Cart {
 	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	///
-	///
-	///
-	///
-	///
-	
+
 	public void addItem(CartItem cartItem) {
-		this.cartItems.add(cartItem);
-	cartItem.setCart(this);
+		this.cartItem.add(cartItem);
+		cartItem.setCart(this);
 	}
 	
 	public void removeItem(CartItem cartItem) {
-		this.cartItems.remove(cartItem);
+		this.cartItem.remove(cartItem);
 		cartItem.setCart(null);
 	}
 	
 	public void setTotalAmount() {
-		Set<BigDecimal> getItemTotalPrice=this.cartItems.stream().map(item->item.getTotalPrice()).collect(Collectors.toSet());
+		Set<BigDecimal> getItemTotalPrice=this.cartItem.stream().map(item->item.getTotalPrice()).collect(Collectors.toSet());
 		this.totalAmount=getItemTotalPrice.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
 	
+	}
+
+	public Set<CartItem> getCartItem() {
+		return cartItem;
+	}
+
+	public void setCartItemDTOs(Set<CartItem> cartItem) {
+		this.cartItem = cartItem;
 	}
 }

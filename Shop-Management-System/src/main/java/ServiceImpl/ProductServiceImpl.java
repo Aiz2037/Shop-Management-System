@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import DTO.ProductDTO;
+import DataMapper.ProductMapper;
 import Entity.Category;
 import Entity.Product;
 import Exception.ResourcesNotFoundException;
@@ -20,19 +22,26 @@ public class ProductServiceImpl implements ProductService {
 
 	private final ProductRepository productRepository;
 	private final CategoryRepository categoryRepository;
+	private final ProductMapper productMapper;
 	
 	@Autowired
-	public ProductServiceImpl(ProductRepository productRepository,CategoryRepository categoryRepository) {
+	public ProductServiceImpl(ProductRepository productRepository,CategoryRepository categoryRepository,ProductMapper productMapper) {
 		this.productRepository = productRepository;
 		this.categoryRepository = categoryRepository;
+		this.productMapper = productMapper;
 	}
 	
 	
 	@Override
-	public Product getProductById(Long productId) {
-		return productRepository.findById(productId)
+	public ProductDTO getProductById(Long productId) {
+		
+		Product product =productRepository.findById(productId)
+				//.map(product-> mapToDTO(product))
 				.orElseThrow(()-> new ResourcesNotFoundException("Product not found !!"));
+		return productMapper.toDTO(product);
 	}
+	
+
 	
 	@Override
 	public Product addProduct(AddProductRequest request) {
@@ -58,14 +67,14 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public Product updateProduct(ProductUpdateRequest productUpdateRequest,Long productID) {
+	public ProductDTO updateProduct(ProductUpdateRequest productUpdateRequest,Long productID) {
 		
-		return Optional.ofNullable(getProductById(productID))
-		.map(existingProduct->updateExistingProduct(existingProduct,productUpdateRequest))
-		.map(productRepository::save)
-		.orElseThrow(()->new ResourcesNotFoundException("Product not found"));
-		
-		
+		ProductDTO productDTO=getProductById(productID);
+		Product product = Optional.ofNullable(productMapper.toEntity(productDTO))
+				.map(existingProduct->updateExistingProduct(existingProduct,productUpdateRequest))
+				.map(productRepository::save)
+				.orElseThrow(()->new ResourcesNotFoundException("Product not found"));
+		return productMapper.toDTO(product);
 	}
 
 	private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest productUpdateRequest) {

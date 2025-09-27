@@ -1,44 +1,23 @@
 package DTO;
 
+import java.math.BigDecimal;
+
 import Entity.Cart;
+import Entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Data //already generated getter and setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItemDTO {	//data transfer object
+public class CartItemDTO {	
 	
-	private double quantity;
-	private String productName;
-	private double productPrice;
-	private double totalPrice;
-	
-	public double getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(double quantity) {
-		this.quantity = quantity;
-	}
-	
-	public double getTotalPrice() {
-		return totalPrice;
-	}
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-	public double getProductPrice() {
-		return productPrice;
-	}
-	public void setProductPrice(double productPrice) {
-		this.productPrice = productPrice;
-	}
+	private Long id;
+	private Product product;
+	private Integer quantity;
+	private BigDecimal productPrice;
+	private BigDecimal totalPrice;
+	private Cart cart;
 	
 }

@@ -1,5 +1,6 @@
 package Service;
 
+import DTO.CartDTO;
 import Entity.Cart;
 
 public interface CartService {
