@@ -10,4 +10,5 @@ public interface CartService {
 
 	Long initializeCart();
 	void deleteAllCarts();
+	Cart getCartByUserId(Long userID);
 }

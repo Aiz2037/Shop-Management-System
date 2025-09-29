@@ -7,13 +7,15 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import DTO.CartItemDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +32,13 @@ public class Cart {
 	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL, orphanRemoval=true)					//parent
 	//@JsonIgnore //if ignore here entity will not return cartitem
 	private Set<CartItem> cartItem = new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name="foreignUserID")
+	@JsonIgnore
+	private User user;
+	
+
 	
 	private BigDecimal totalAmount;
 

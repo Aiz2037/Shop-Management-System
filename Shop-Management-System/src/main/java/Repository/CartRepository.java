@@ -8,5 +8,7 @@ import Entity.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long>{
+
+	Cart findByForeingUserID(Long userID);
 	
 }

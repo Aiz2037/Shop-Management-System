@@ -1,12 +1,9 @@
 package ServiceImpl;
 
-import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
-import DTO.CartDTO;
 import DataMapper.CartMapper;
 import Entity.Cart;
 import Exception.ResourcesNotFoundException;
@@ -23,6 +20,10 @@ public class CartServiceImpl implements CartService {
 	//private final AtomicLong cartIDgenerator = new AtomicLong(0);
 	private final CartMapper cartMapper;
 	
+	public Cart getCartByUserId(Long userID) {
+		return Optional.ofNullable(cartRepository.findByForeingUserID(userID))
+				.orElseThrow(()->new ResourcesNotFoundException("Cart not found"));
+	}
 	public Cart getCartByID(Long cartID) {
 		return cartRepository.findById(cartID)
 				.orElseThrow(()->new ResourcesNotFoundException("Cart not found")); //cannot find return null

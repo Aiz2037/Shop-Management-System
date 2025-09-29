@@ -2,7 +2,6 @@ package ServiceImpl;
 
 import org.springframework.stereotype.Service;
 
-import DTO.CartItemDTO;
 import DTO.ProductDTO;
 import DataMapper.CartItemMapper;
 import DataMapper.CartMapper;
@@ -15,8 +14,6 @@ import Repository.CartRepository;
 import Service.CartItemService;
 import Service.CartService;
 import Service.ProductService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
