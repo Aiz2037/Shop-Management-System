@@ -41,10 +41,4 @@ public class UserServiceImpl {
 			return userRepository.save(user);})
 		.orElseThrow(()->new AlreadyExistsException("User exists!"));	
 	}
-	
-	public User getCartByUserID(Long userID) {
-		
-	}
-	
-
 }

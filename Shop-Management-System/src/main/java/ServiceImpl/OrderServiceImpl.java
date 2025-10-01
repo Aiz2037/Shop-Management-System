@@ -2,7 +2,10 @@ package ServiceImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,8 @@ import Entity.Cart;
 import Entity.Order;
 import Entity.OrderItem;
 import Entity.Product;
+import Repository.CartRepository;
+import Repository.OrderRepository;
 import Repository.ProductRepository;
 import Service.CartService;
 import Service.OrderService;
@@ -22,21 +27,22 @@ public class OrderServiceImpl implements OrderService  {
 	
 	private CartService cartService;
 	private ProductRepository productRepository;
+	private OrderRepository orderRepository;
+	private CartRepository cartRepository;
 	
 	public Order placeOrder(Long userID) {
 		Order order = new Order();
 		order.setStatus(OrderStatus.PENDING);
 		order.setOrderDate(LocalDate.now());
-		
 		Cart cart = cartService.getCartByUserId(userID);
 		order.setPriceToPay(cart.getTotalAmount());
 		
-		List<OrderItem> orderItems = cart.getCartItem().stream()
+		List<OrderItem> orderItems = cart.getCartItem().stream()  //set orderitem cannot accept stream object data
 				.map(item-> {
-					Product product = item.getProduct(); //access directdatabase
+					//Product product = productRepository.findByName(item.getProduct().getName());
+					Product product = item.getProduct(); //is it link directly to product database?
 					product.setInventory(product.getInventory()-item.getQuantity());
 					productRepository.save(product);
-					orderItems.
 					Integer quantity = item.getQuantity();
 					BigDecimal productPrice = item.getProductPrice();
 					BigDecimal totalPrice = item.getTotalPrice();
@@ -44,7 +50,8 @@ public class OrderServiceImpl implements OrderService  {
 					return new OrderItem(product,quantity,productPrice,totalPrice);
 					}).toList();
 		
-				
+		order.setOrderItems(new HashSet<>(orderItems));
+		cartRepository.deleteById(cart.getId()); //clear cart after place order
+		return orderRepository.save(order);		
 	}
-
 }

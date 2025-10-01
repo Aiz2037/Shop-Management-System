@@ -2,6 +2,8 @@ package Entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 import Status.OrderStatus;
 import jakarta.persistence.CascadeType;
@@ -37,7 +39,9 @@ public class Order {
 	@JoinColumn(name="foreignUserID)")
 	private User user;
 	
-
+	@OneToMany(mappedBy="order",cascade=CascadeType.ALL, orphanRemoval=true)
+	private Set<OrderItem> orderItems;
+	
 	public Long getId() {
 		return id;
 	}
@@ -76,6 +80,14 @@ public class Order {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Set<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(Set<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 	
 	

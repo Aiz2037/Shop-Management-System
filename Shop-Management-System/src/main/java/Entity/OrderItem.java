@@ -27,6 +27,10 @@ public class OrderItem {
 	private BigDecimal productPrice;
 	private BigDecimal totalPrice;
 	
+	@ManyToOne
+	@JoinColumn(name="foreignOrderID")
+	private Order order;
+	
 	public OrderItem(Product product,Integer quantity,BigDecimal productPrice,BigDecimal totalPrice) {
 		this.product=product;
 		this.quantity=quantity;

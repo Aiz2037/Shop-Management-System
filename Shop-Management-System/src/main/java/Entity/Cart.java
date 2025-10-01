@@ -37,9 +37,7 @@ public class Cart {
 	@JoinColumn(name="foreignUserID")
 	@JsonIgnore
 	private User user;
-	
 
-	
 	private BigDecimal totalAmount;
 
 	public Long getId() {
