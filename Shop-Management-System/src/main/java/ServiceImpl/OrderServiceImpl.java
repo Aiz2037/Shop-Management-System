@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +11,7 @@ import Entity.Cart;
 import Entity.Order;
 import Entity.OrderItem;
 import Entity.Product;
+import Exception.ResourcesNotFoundException;
 import Repository.CartRepository;
 import Repository.OrderRepository;
 import Repository.ProductRepository;
@@ -30,6 +29,7 @@ public class OrderServiceImpl implements OrderService  {
 	private OrderRepository orderRepository;
 	private CartRepository cartRepository;
 	
+	@Override
 	public Order placeOrder(Long userID) {
 		Order order = new Order();
 		order.setStatus(OrderStatus.PENDING);
@@ -53,5 +53,18 @@ public class OrderServiceImpl implements OrderService  {
 		order.setOrderItems(new HashSet<>(orderItems));
 		cartRepository.deleteById(cart.getId()); //clear cart after place order
 		return orderRepository.save(order);		
+	}
+	
+	@Override
+	//deleteOrderById
+	public void deleteOrderById(Long orderID) {
+		orderRepository.findById(orderID).ifPresentOrElse(orderRepository::delete, 
+				()->new ResourcesNotFoundException("Successfully deleted the product"));
+	}
+	
+	@Override
+	//deleteAllOrder
+	public void deleteAllOrder() {
+		orderRepository.deleteAll();
 	}
 }
