@@ -50,6 +50,4 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
 		}
 	}
-	
-	
 }

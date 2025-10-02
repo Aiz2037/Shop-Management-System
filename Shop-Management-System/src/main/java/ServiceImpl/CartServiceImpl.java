@@ -20,28 +20,36 @@ public class CartServiceImpl implements CartService {
 	//private final AtomicLong cartIDgenerator = new AtomicLong(0);
 	private final CartMapper cartMapper;
 	
+//	@Override
 	public Cart getCartByUserId(Long userID) {
-		return Optional.ofNullable(cartRepository.findByForeingUserID(userID))
+		return Optional.ofNullable(cartRepository.findByUserId(userID))
 				.orElseThrow(()->new ResourcesNotFoundException("Cart not found"));
+	
 	}
+	
+	@Override
 	public Cart getCartByID(Long cartID) {
 		return cartRepository.findById(cartID)
 				.orElseThrow(()->new ResourcesNotFoundException("Cart not found")); //cannot find return null
 		//return cartMapper.toDTO(cart);
 	}
 	
+	@Override
 	public void deleteCartById(Long cartID) {
 		Optional.of(getCartByID(cartID)).ifPresent(cartRepository::delete);
 	}
 	
+	@Override
 	public void deleteAllCarts() {
 		cartRepository.deleteAll();
 	}
 	
+	@Override
 	public Long initializeCart() {
 		Cart newCart = new Cart();
 //		Long cartID=cartIDgenerator.incrementAndGet();	Row was updated or deleted by another transaction
 //		newCart.setId(cartID);
 		return cartRepository.save(newCart).getId();
 	}
+
 }

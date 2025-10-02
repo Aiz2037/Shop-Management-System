@@ -1,5 +1,6 @@
 package Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,12 +22,19 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
+	
+	@Autowired
 	private UserService userService;
 	
 	@PostMapping("/newUser")
 	public ResponseEntity<APIResponse> createNewUser(@RequestBody AddUserRequest request){
-		User user = userService.createUser(request);
-		return ResponseEntity.ok(new APIResponse("User added successfully", user));
+		try {
+			User user = userService.createUser(request);
+			return ResponseEntity.ok(new APIResponse("User added successfully", user));
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
+		}
+		
 	}
 	
 	@GetMapping("/getUser")
