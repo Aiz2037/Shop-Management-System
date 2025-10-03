@@ -10,6 +10,7 @@ import DTO.ProductDTO;
 import DataMapper.ProductMapper;
 import Entity.Category;
 import Entity.Product;
+import Exception.AlreadyExistsException;
 import Exception.ResourcesNotFoundException;
 import Repository.CategoryRepository;
 import Repository.ProductRepository;
@@ -52,6 +53,9 @@ public class ProductServiceImpl implements ProductService {
 			return categoryRepository.save(newCategory);
 		});
 		
+		Optional.of(request).filter(product->!productRepository.existsByName(request.getName()))
+		.orElseThrow(()->new AlreadyExistsException("Product already exists in database. Unable to add!"));
+		
 		return productRepository.save(mapToProduct(request,category));
 	}
 	
@@ -59,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
 		Product newProduct = new Product();
 		newProduct.setName(request.getName());
 		newProduct.setPrice(request.getPrice());
+		newProduct.setInventory(request.getInventory());		
 		newProduct.setBrand(request.getBrand());
 		newProduct.setCategory(category);
 		return newProduct;
@@ -109,6 +114,5 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteAllProducts() {
 		productRepository.deleteAll();
-		
 	}
 }

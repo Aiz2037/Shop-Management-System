@@ -14,6 +14,7 @@ import Repository.CartRepository;
 import Service.CartItemService;
 import Service.CartService;
 import Service.ProductService;
+import Service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,16 +25,16 @@ public class CartItemServiceImpl implements CartItemService {
 	private final ProductService productService;
 	private final CartService cartService;
 	private final CartRepository cartRepository;
-	private final CartItemMapper cartItemMapper;
-	private final CartMapper cartMapper;
 	private final ProductMapper productMapper;
+	private final UserService userService;
 	
-	public CartItem addItemToCart(Long productID, Integer quantity, Long cartID) {
+	public CartItem addItemToCart(Long productID, Integer quantity, Long cartID,Long userID) {
 		//check cart already has the product
 		//if no, create new cartItem and assign to cart
 		//get total price for all items in the cart
 		Cart cart = cartService.getCartByID(cartID);
-		//check cartitem in the cart has the product
+		cart.setUser(userService.getUserById(userID)); //set user id??
+ 		//check cartitem in the cart has the product
 		CartItem cartItem = cart.getCartItem().stream()
 				.filter(item->item.getProduct().getId().equals(productID)).findFirst().orElse(new CartItem());
 		ProductDTO productDTO = productService.getProductById(productID);
@@ -53,7 +54,7 @@ public class CartItemServiceImpl implements CartItemService {
 		cart.addItem(cartItem);
 		cart.setTotalAmount();
 		//cartRepository.save(cart);
-		return cartItemRepository.save(cartItem);
+		return cartItemRepository.save(cartItem); //save the cart data too , so weirdd
 	
 		
 	}

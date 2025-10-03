@@ -2,6 +2,7 @@ package ServiceImpl;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import DataMapper.CartMapper;
@@ -15,12 +16,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
+
+	
 	private final CartRepository cartRepository;
 	//private final CartService cartService; //cause circular dependency
 	//private final AtomicLong cartIDgenerator = new AtomicLong(0);
-	private final CartMapper cartMapper;
 	
-//	@Override
+	@Override
 	public Cart getCartByUserId(Long userID) {
 		return Optional.ofNullable(cartRepository.findByUserId(userID))
 				.orElseThrow(()->new ResourcesNotFoundException("Cart not found"));

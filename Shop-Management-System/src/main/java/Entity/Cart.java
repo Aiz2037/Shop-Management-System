@@ -5,19 +5,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 //@Data - not recommended to put in entity, this annotation prohibit use of getter & setter annotation
@@ -49,8 +44,6 @@ public class Cart {
 		this.id = id;
 	}
 	
-
-
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
@@ -72,7 +65,6 @@ public class Cart {
 	public void setTotalAmount() {
 		Set<BigDecimal> getItemTotalPrice=this.cartItem.stream().map(item->item.getTotalPrice()).collect(Collectors.toSet());
 		this.totalAmount=getItemTotalPrice.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-	
 	}
 
 	public Set<CartItem> getCartItem() {

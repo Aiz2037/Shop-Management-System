@@ -36,7 +36,7 @@ public class Order {
 	private OrderStatus status;
 	
 	@ManyToOne
-	@JoinColumn(name="foreignUserID)")
+	@JoinColumn(name="foreignUserID")
 	private User user;
 	
 	@OneToMany(mappedBy="order",cascade=CascadeType.ALL, orphanRemoval=true)
