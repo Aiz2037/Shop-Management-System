@@ -10,9 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
@@ -33,7 +31,7 @@ public class User {
 	private Cart cart;
 	
 	@OneToMany(mappedBy="user",cascade=CascadeType.ALL, orphanRemoval=true)
-	private List<Order> order;
+	private List<Orders> order;
 
 	public Long getId() {
 		return id;
@@ -89,14 +87,6 @@ public class User {
 
 	public void setCart(Cart cart) {
 		this.cart = cart;
-	}
-
-	public List<Order> getOrder() {
-		return order;
-	}
-
-	public void setOrder(List<Order> order) {
-		this.order = order;
 	}
 
 

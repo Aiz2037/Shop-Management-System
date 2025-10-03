@@ -33,6 +33,17 @@ public class CartController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse("Unable to get cart",null));
 		}
 	}
+	
+	@GetMapping("/getCartUserId")
+	public ResponseEntity<APIResponse> getCartByUserID(@RequestParam Long userID){
+		try {
+			Cart cart = cartService.getCartByUserId(userID);		//even here already thrown exception
+			//IT STILL EXECUTES NEXT BECAUSE OF TRY CATCH
+			return ResponseEntity.ok(new APIResponse("Successfully get cart.",cart));
+		}catch(ResourcesNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse("Unable to get cart",null));
+		}
+	}
 
 	@DeleteMapping("/deleteCart")
 	public ResponseEntity<APIResponse> deleteCartByID(@RequestParam Long cartID){

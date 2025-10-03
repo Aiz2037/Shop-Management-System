@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Entity.Order;
+import Entity.Orders;
 import Response.APIResponse;
-import Service.OrderService;
+import Service.OrdersService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,12 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderController {
 
-	private OrderService orderService;
+	
+	private final OrdersService ordersService; //put final so constructor can be created
+
 	
 	@PostMapping("/placeOrder")
-	public ResponseEntity<APIResponse> placeOrder(@RequestParam Long userID){
+	public ResponseEntity<APIResponse> placeOrderFromCart(@RequestParam Long userID){
 		try{
-			Order order = orderService.placeOrder(userID);
+			Orders order = ordersService.placeOrder(userID);
 			return ResponseEntity.ok(new APIResponse("Order placed =)", order));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
@@ -35,7 +37,7 @@ public class OrderController {
 	@DeleteMapping("/deleteAll")
 	public ResponseEntity<APIResponse> deleteAllOrder(@RequestParam Long userID){
 		try{
-			orderService.deleteAllOrder();
+			ordersService.deleteAllOrder();
 			return ResponseEntity.ok(new APIResponse("All orders are deleted", null));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));
@@ -45,7 +47,7 @@ public class OrderController {
 	@DeleteMapping("/deleteOrderById/{userID}")
 	public ResponseEntity<APIResponse> deleteOrderByID(@PathVariable Long userID){
 		try{
-			orderService.deleteAllOrder();
+			ordersService.deleteAllOrder();
 			return ResponseEntity.ok(new APIResponse("Selected order has been deleted", null));
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse(e.getMessage(),null));

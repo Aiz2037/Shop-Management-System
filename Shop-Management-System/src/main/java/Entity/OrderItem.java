@@ -1,15 +1,14 @@
 package Entity;
 
 import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.criteria.Order;
 
 @Entity
 public class OrderItem {
@@ -29,7 +28,7 @@ public class OrderItem {
 	
 	@ManyToOne
 	@JoinColumn(name="foreignOrderID")
-	private Order order;
+	private Orders order;
 	
 	public OrderItem(Product product,Integer quantity,BigDecimal productPrice,BigDecimal totalPrice) {
 		this.product=product;
@@ -76,6 +75,14 @@ public class OrderItem {
 
 	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public Orders getOrder() {
+		return order;
+	}
+
+	public void setOrder(Orders order) {
+		this.order = order;
 	}
 	
 	

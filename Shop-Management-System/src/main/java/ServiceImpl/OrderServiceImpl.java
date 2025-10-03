@@ -5,25 +5,24 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Entity.Cart;
-import Entity.Order;
 import Entity.OrderItem;
+import Entity.Orders;
 import Entity.Product;
 import Exception.ResourcesNotFoundException;
 import Repository.CartRepository;
 import Repository.OrderRepository;
 import Repository.ProductRepository;
 import Service.CartService;
-import Service.OrderService;
+import Service.OrdersService;
 import Status.OrderStatus;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService  {
+public class OrderServiceImpl implements OrdersService  {
 	
 	private CartService cartService;
 	private ProductRepository productRepository;
@@ -31,8 +30,8 @@ public class OrderServiceImpl implements OrderService  {
 	private CartRepository cartRepository;
 	
 	@Override
-	public Order placeOrder(Long userID) {
-		Order order = new Order();
+	public Orders placeOrder(Long userID) {
+		Orders order = new Orders();
 		order.setStatus(OrderStatus.PENDING);
 		order.setOrderDate(LocalDate.now());
 		Cart cart = cartService.getCartByUserId(userID);

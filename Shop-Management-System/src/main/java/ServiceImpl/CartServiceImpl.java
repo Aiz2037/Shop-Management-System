@@ -2,10 +2,8 @@ package ServiceImpl;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import DataMapper.CartMapper;
 import Entity.Cart;
 import Exception.ResourcesNotFoundException;
 import Repository.CartRepository;
@@ -15,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
-
-
 	
 	private final CartRepository cartRepository;
 	//private final CartService cartService; //cause circular dependency
